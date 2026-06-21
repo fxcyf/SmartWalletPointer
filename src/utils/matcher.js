@@ -6,7 +6,7 @@ export function getCurrentQuarter() {
   return `${now.getFullYear()}-Q${q}`;
 }
 
-export function getBestCards(category, currentQuarter) {
+export function getBestCards(category, currentQuarter, spends) {
   if (!category) return [];
 
   const candidates = cards.map((card) => {
@@ -20,13 +20,20 @@ export function getBestCards(category, currentQuarter) {
       || card.fixedBenefits.other?.label
       || 'Base rate';
     let isRotating = false;
+    let rotationMaxed = false;
 
     const rotation = card.rotating[currentQuarter];
     if (rotation && rotation.categories.includes(category)) {
-      rate = rotation.rate;
-      unit = rotation.unit;
-      reason = rotation.label;
-      isRotating = true;
+      const spent = spends?.[card.id] || 0;
+      if (spent < rotation.limit) {
+        rate = rotation.rate;
+        unit = rotation.unit;
+        reason = rotation.label;
+        isRotating = true;
+      } else {
+        rotationMaxed = true;
+        reason = `${rotation.label} (limit reached)`;
+      }
     }
 
     const effectiveValue = unit === 'x'
@@ -42,6 +49,7 @@ export function getBestCards(category, currentQuarter) {
       unit,
       reason,
       isRotating,
+      rotationMaxed,
       effectiveValue,
       pointSystem: card.pointSystem,
     };

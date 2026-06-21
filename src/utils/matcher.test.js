@@ -59,6 +59,30 @@ describe('getBestCards', () => {
       expect(card.rate).toBeGreaterThanOrEqual(1);
     });
   });
+
+  it('falls back to base rate when rotating limit is maxed', () => {
+    const spends = { discover: 1500 };
+    const result = getBestCards('dining', '2026-Q2', spends);
+    const disc = result.find((c) => c.cardId === 'discover');
+    expect(disc.rate).toBe(1);
+    expect(disc.isRotating).toBe(false);
+    expect(disc.rotationMaxed).toBe(true);
+  });
+
+  it('still uses rotating rate when under limit', () => {
+    const spends = { discover: 500 };
+    const result = getBestCards('dining', '2026-Q2', spends);
+    const disc = result.find((c) => c.cardId === 'discover');
+    expect(disc.rate).toBe(5);
+    expect(disc.isRotating).toBe(true);
+    expect(disc.rotationMaxed).toBe(false);
+  });
+
+  it('works with no spends parameter (backward compatible)', () => {
+    const result = getBestCards('amazon', '2026-Q2');
+    const flex = result.find((c) => c.cardId === 'cff');
+    expect(flex.rate).toBe(5);
+  });
 });
 
 describe('getRotatingInfo', () => {

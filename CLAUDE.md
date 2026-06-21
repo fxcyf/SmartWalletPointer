@@ -86,8 +86,11 @@ rebase 发生冲突时：
 - **核心模块：**
   - `src/data/cards.js` — 三张卡的静态福利矩阵（CSP / Flex / Discover）
   - `src/data/merchants.js` — 域名→消费场景映射
-  - `src/utils/matcher.js` — 最优卡片计算引擎
-  - `src/background.js` — Service Worker，监听标签页变化
+  - `src/utils/matcher.js` — 最优卡片计算引擎（支持消费限额感知）
+  - `src/utils/storage.js` — chrome.storage.local 封装（消费额度追踪 + 缓存）
+  - `src/utils/rss.js` — Doctor of Credit RSS 解析器（银行/商户/优惠结构化提取）
+  - `src/utils/browser.js` — 跨浏览器兼容层（Chrome / Safari）
+  - `src/background.js` — Service Worker，监听标签页 + 定时拉取 RSS（chrome.alarms）
   - `src/sidepanel/` — React 侧边栏 UI（Smart Match / 5% Calendar / Hot Deals）
 
 ## 命令

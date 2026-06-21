@@ -79,7 +79,7 @@ export default function App() {
           <SmartMatch category={category} merchantName={merchantName} quarter={quarter} />
         )}
         {activeTab === 'calendar' && <Calendar quarter={quarter} />}
-        {activeTab === 'deals' && <HotDeals />}
+        {activeTab === 'deals' && <HotDeals currentMerchant={merchantName} />}
       </main>
     </div>
   );

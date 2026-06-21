@@ -3,7 +3,7 @@
   "name": "SmartWallet Pointers",
   "version": "0.1.0",
   "description": "Smart credit card recommendation for your purchases",
-  "permissions": ["sidePanel", "activeTab", "tabs", "storage"],
+  "permissions": ["sidePanel", "activeTab", "tabs", "storage", "alarms"],
   "background": {
     "service_worker": "background.js"
   },
