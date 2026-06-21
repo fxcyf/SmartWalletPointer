@@ -77,6 +77,25 @@ rebase 发生冲突时：
 
 **同样的问题不要犯两次！**
 
+## 技术架构
+
+- **类型：** Chrome 浏览器扩展 (Manifest V3)
+- **前端：** React 19 + Tailwind CSS 3，Vite 构建
+- **测试：** Vitest，测试文件与源码同目录 (`*.test.js`)
+- **构建：** `npm run build` → `dist/` 目录即可作为 Chrome 扩展加载
+- **核心模块：**
+  - `src/data/cards.js` — 三张卡的静态福利矩阵（CSP / Flex / Discover）
+  - `src/data/merchants.js` — 域名→消费场景映射
+  - `src/utils/matcher.js` — 最优卡片计算引擎
+  - `src/background.js` — Service Worker，监听标签页变化
+  - `src/sidepanel/` — React 侧边栏 UI（Smart Match / 5% Calendar / Hot Deals）
+
+## 命令
+
+- `npm test` — 运行测试
+- `npm run build` — 构建扩展到 dist/
+- `npm run dev` — Watch 模式开发
+
 ## 注意事项
 
 - 在 worktree 中工作时，不要切换到其他分支
