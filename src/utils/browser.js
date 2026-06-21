@@ -1,18 +1,17 @@
-const browser = (typeof globalThis.browser !== 'undefined' && globalThis.browser) || globalThis.chrome;
+export function getExtensionApi() {
+  return (typeof globalThis.browser !== 'undefined' && globalThis.browser)
+    || globalThis.chrome
+    || null;
+}
 
-export default browser;
+const api = getExtensionApi();
+export default api;
 
 export function isChrome() {
   return typeof chrome !== 'undefined' && !!chrome.runtime?.id;
 }
 
-export function isSafari() {
-  return typeof browser !== 'undefined'
-    && typeof browser.runtime !== 'undefined'
-    && /Safari/i.test(navigator.userAgent)
-    && !/Chrome/i.test(navigator.userAgent);
-}
-
-export function getExtensionApi() {
-  return browser;
+export function isFirefox() {
+  return typeof globalThis.browser !== 'undefined'
+    && typeof globalThis.browser.runtime !== 'undefined';
 }

@@ -29,22 +29,35 @@ Aggregates credit card deals from Doctor of Credit RSS feed:
 
 ## Installation (Developer Mode)
 
+### Chrome
 1. Clone the repo and install dependencies:
    ```bash
    npm install
-   npm run build
+   npm run build        # or: npm run build:chrome
    ```
 2. Open Chrome → `chrome://extensions/`
 3. Enable "Developer mode" (top-right toggle)
 4. Click "Load unpacked" → select the `dist/` folder
-5. Click the extension icon to open the side panel
+5. Click the extension icon to open the popup
+
+### Firefox
+1. Build for Firefox:
+   ```bash
+   npm install
+   npm run build:firefox
+   ```
+2. Open Firefox → `about:debugging#/runtime/this-firefox`
+3. Click "Load Temporary Add-on..." → select `dist/manifest.json`
+4. Click the extension icon to open the popup
 
 ## Development
 
 ```bash
-npm run dev     # Watch mode (auto-rebuild on changes)
-npm run build   # Production build
-npm test        # Run unit tests
+npm run dev           # Watch mode (auto-rebuild, Chrome target)
+npm run build         # Production build (Chrome)
+npm run build:chrome  # Explicit Chrome build
+npm run build:firefox # Firefox build
+npm test              # Run unit tests
 ```
 
 ## Project Structure
@@ -71,17 +84,16 @@ src/
     browser.js          # Cross-browser API compatibility
 ```
 
-## Cross-Browser Support (Phase 3 Prep)
+## Cross-Browser Support
 
-The `src/utils/browser.js` module provides a compatibility layer for Chrome and Safari WebExtensions. The core logic uses standard WebExtensions APIs for future Safari/iOS portability. To build a Safari extension:
+- **Chrome:** `npm run build` (default) — uses `service_worker` for background
+- **Firefox:** `npm run build:firefox` — uses `background.scripts` + gecko settings
+- **Safari:** Build the Chrome version, then use Xcode's "Convert Chrome Extension" (Xcode 15+)
 
-1. Ensure the extension works in Chrome
-2. Use Xcode's "Convert Chrome Extension" tool (Xcode 15+)
-3. The `browser.js` module auto-detects the runtime environment
+The `src/utils/browser.js` module auto-detects `browser` (Firefox) vs `chrome` (Chrome/Edge) APIs at runtime. All frontend code uses this abstraction.
 
 ## Roadmap
 
-- [x] **Phase 1:** Static card data, domain matching, sidepanel UI with 3 tabs
+- [x] **Phase 1:** Static card data, domain matching, popup UI with 3 tabs
 - [x] **Phase 2:** Spend tracking progress bars, live RSS deals from Doctor of Credit
-- [x] **Phase 3 Prep:** Cross-browser compatibility layer for Safari/iOS portability
-- [ ] **Phase 3 Full:** Safari Web Extension packaging via Xcode
+- [x] **Phase 3:** Cross-browser support (Chrome + Firefox + Safari prep)

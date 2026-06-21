@@ -96,7 +96,9 @@ rebase 发生冲突时：
 ## 命令
 
 - `npm test` — 运行测试
-- `npm run build` — 构建扩展到 dist/
+- `npm run build` — 构建 Chrome 扩展到 dist/
+- `npm run build:chrome` — 同上（显式指定 Chrome）
+- `npm run build:firefox` — 构建 Firefox 扩展到 dist/
 - `npm run dev` — Watch 模式开发
 
 ## 注意事项

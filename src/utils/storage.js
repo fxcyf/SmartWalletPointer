@@ -1,12 +1,11 @@
+import { getExtensionApi } from './browser.js';
+
 const SPEND_KEY_PREFIX = 'spend_';
 const DEALS_KEY = 'cached_deals';
 const DEALS_TIMESTAMP_KEY = 'deals_fetched_at';
 
 function getStorage() {
-  if (typeof chrome !== 'undefined' && chrome.storage?.local) {
-    return chrome.storage.local;
-  }
-  return null;
+  return getExtensionApi()?.storage?.local || null;
 }
 
 function spendKey(cardId, quarter) {

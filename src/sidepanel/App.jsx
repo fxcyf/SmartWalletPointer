@@ -4,6 +4,7 @@ import Calendar from './components/Calendar.jsx';
 import HotDeals from './components/HotDeals.jsx';
 import { getCategoryFromUrl, getMerchantName } from '../data/merchants.js';
 import { getCurrentQuarter } from '../utils/matcher.js';
+import api from '../utils/browser.js';
 
 const TABS = [
   { id: 'match', label: 'Smart Match' },
@@ -27,18 +28,29 @@ export default function App() {
       }
     }
 
-    if (typeof chrome !== 'undefined' && chrome.runtime?.onMessage) {
-      chrome.runtime.onMessage.addListener(handleMessage);
+    if (api?.runtime?.onMessage) {
+      api.runtime.onMessage.addListener(handleMessage);
 
-      chrome.tabs?.query({ active: true, currentWindow: true }, (tabs) => {
-        if (tabs?.[0]?.url) {
-          setCurrentUrl(tabs[0].url);
-          setCategory(getCategoryFromUrl(tabs[0].url));
-          setMerchantName(getMerchantName(tabs[0].url));
-        }
-      });
+      const queryTabs = api.tabs?.query({ active: true, currentWindow: true });
+      if (queryTabs?.then) {
+        queryTabs.then((tabs) => {
+          if (tabs?.[0]?.url) {
+            setCurrentUrl(tabs[0].url);
+            setCategory(getCategoryFromUrl(tabs[0].url));
+            setMerchantName(getMerchantName(tabs[0].url));
+          }
+        });
+      } else if (api.tabs?.query) {
+        api.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          if (tabs?.[0]?.url) {
+            setCurrentUrl(tabs[0].url);
+            setCategory(getCategoryFromUrl(tabs[0].url));
+            setMerchantName(getMerchantName(tabs[0].url));
+          }
+        });
+      }
 
-      return () => chrome.runtime.onMessage.removeListener(handleMessage);
+      return () => api.runtime.onMessage.removeListener(handleMessage);
     }
   }, []);
 

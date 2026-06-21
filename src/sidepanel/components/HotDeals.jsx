@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getCachedDeals } from '../../utils/storage.js';
 import { filterRelevantDeals } from '../../utils/rss.js';
+import api from '../../utils/browser.js';
 
 const FALLBACK_DEALS = [
   { bank: 'Chase', merchant: 'Geico', deal: '10% back (max $20)', category: 'Insurance', isRelevant: true },
@@ -48,15 +49,15 @@ export default function HotDeals({ currentMerchant }) {
         setFetchedAt(Date.now());
       }
     }
-    if (typeof chrome !== 'undefined' && chrome.runtime?.onMessage) {
-      chrome.runtime.onMessage.addListener(handleMessage);
-      return () => chrome.runtime.onMessage.removeListener(handleMessage);
+    if (api?.runtime?.onMessage) {
+      api.runtime.onMessage.addListener(handleMessage);
+      return () => api.runtime.onMessage.removeListener(handleMessage);
     }
   }, []);
 
   function handleRefresh() {
-    if (typeof chrome !== 'undefined' && chrome.runtime?.sendMessage) {
-      chrome.runtime.sendMessage({ type: 'REFRESH_DEALS' }).catch(() => {});
+    if (api?.runtime?.sendMessage) {
+      api.runtime.sendMessage({ type: 'REFRESH_DEALS' }).catch(() => {});
     }
   }
 

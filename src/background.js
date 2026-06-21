@@ -1,15 +1,17 @@
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+const api = globalThis.browser || globalThis.chrome;
+
+api.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url || changeInfo.status === 'complete') {
-    chrome.runtime
+    api.runtime
       .sendMessage({ type: 'TAB_UPDATED', url: tab.url, tabId })
       .catch(() => {});
   }
 });
 
-chrome.tabs.onActivated.addListener(async ({ tabId }) => {
+api.tabs.onActivated.addListener(async ({ tabId }) => {
   try {
-    const tab = await chrome.tabs.get(tabId);
-    chrome.runtime
+    const tab = await api.tabs.get(tabId);
+    api.runtime
       .sendMessage({ type: 'TAB_UPDATED', url: tab.url, tabId })
       .catch(() => {});
   } catch {}
@@ -79,29 +81,29 @@ async function fetchAndCacheDeals() {
     if (!resp.ok) return;
     const xml = await resp.text();
     const deals = parseRss(xml);
-    await chrome.storage.local.set({
+    await api.storage.local.set({
       cached_deals: deals,
       deals_fetched_at: Date.now(),
     });
-    chrome.runtime.sendMessage({ type: 'DEALS_UPDATED', deals }).catch(() => {});
+    api.runtime.sendMessage({ type: 'DEALS_UPDATED', deals }).catch(() => {});
   } catch (err) {
     console.error('Deal fetch failed:', err);
   }
 }
 
-chrome.alarms.create(ALARM_NAME, {
+api.alarms.create(ALARM_NAME, {
   delayInMinutes: 1,
   periodInMinutes: FETCH_INTERVAL_MINUTES,
 });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
+api.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === ALARM_NAME) fetchAndCacheDeals();
 });
 
-chrome.runtime.onMessage.addListener((msg) => {
+api.runtime.onMessage.addListener((msg) => {
   if (msg.type === 'REFRESH_DEALS') fetchAndCacheDeals();
 });
 
-chrome.runtime.onInstalled.addListener(() => {
+api.runtime.onInstalled.addListener(() => {
   fetchAndCacheDeals();
 });
