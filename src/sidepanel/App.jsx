@@ -43,7 +43,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col min-h-[500px] bg-gray-50">
       <header className="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-white shadow-lg">
         <h1 className="text-lg font-bold tracking-tight">SmartWallet Pointers</h1>
         {merchantName && (

@@ -1,17 +1,15 @@
 {
   "manifest_version": 3,
   "name": "SmartWallet Pointers",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Smart credit card recommendation for your purchases",
-  "permissions": ["sidePanel", "activeTab", "tabs", "storage", "alarms"],
+  "permissions": ["activeTab", "tabs", "storage", "alarms"],
   "background": {
     "service_worker": "background.js"
   },
-  "side_panel": {
-    "default_path": "src/sidepanel/index.html"
-  },
   "action": {
-    "default_title": "SmartWallet Pointers"
+    "default_title": "SmartWallet Pointers",
+    "default_popup": "src/sidepanel/index.html"
   },
   "icons": {
     "16": "icons/icon16.png",

@@ -1,7 +1,3 @@
-chrome.sidePanel
-  .setPanelBehavior({ openPanelOnActionClick: true })
-  .catch(console.error);
-
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url || changeInfo.status === 'complete') {
     chrome.runtime
