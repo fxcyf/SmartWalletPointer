@@ -17,7 +17,7 @@ api.tabs.onActivated.addListener(async ({ tabId }) => {
   } catch {}
 });
 
-const DOC_RSS_URL = 'https://www.doctorofcredit.com/category/credit-cards/shopping-deals/feed/';
+const DOC_RSS_URL = 'https://www.doctorofcredit.com/feed/';
 const ALARM_NAME = 'fetch-deals';
 const FETCH_INTERVAL_MINUTES = 60;
 

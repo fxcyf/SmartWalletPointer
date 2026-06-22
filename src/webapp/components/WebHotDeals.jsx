@@ -2,13 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { getCachedDeals, setCachedDeals } from '../../utils/webStorage.js';
 import { filterRelevantDeals, fetchDeals } from '../../utils/rss.js';
 
-const FALLBACK_DEALS = [
-  { bank: 'Chase', merchant: 'Geico', deal: '10% back (max $20)', category: 'Insurance', isRelevant: true },
-  { bank: 'Chase', merchant: 'Starbucks', deal: '10% cash back', category: 'Dining', isRelevant: true },
-  { bank: 'Chase', merchant: 'Instacart', deal: '$10 off $50+', category: 'Grocery', isRelevant: true },
-  { bank: 'Chase', merchant: 'DoorDash', deal: '10% back (max $15)', category: 'Dining', isRelevant: true },
-  { bank: 'Discover', merchant: 'Target', deal: '5% cash back via Discover Deals', category: 'Shopping', isRelevant: true },
-];
 
 function formatTimeAgo(timestamp) {
   if (!timestamp) return null;
@@ -38,8 +31,6 @@ export default function WebHotDeals({ currentMerchant }) {
       if (cached.deals.length > 0) {
         setDeals(cached.deals);
         setFetchedAt(cached.fetchedAt);
-      } else {
-        setDeals(FALLBACK_DEALS);
       }
       setLoading(false);
     }
