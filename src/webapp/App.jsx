@@ -61,13 +61,15 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50 max-w-lg mx-auto">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <header className="bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-white shadow-lg safe-top">
-        <h1 className="text-lg font-bold tracking-tight">SmartWallet Pointers</h1>
-        <p className="text-[10px] text-indigo-200 mt-0.5">Paste a merchant URL or link to get card recommendations</p>
+        <div className="max-w-lg mx-auto">
+          <h1 className="text-lg font-bold tracking-tight">SmartWallet Pointers</h1>
+          <p className="text-[10px] text-indigo-200 mt-0.5">Paste a merchant URL or link to get card recommendations</p>
+        </div>
       </header>
 
-      <div className="px-4 py-3 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-lg mx-auto w-full px-4 py-3 bg-white border-b border-gray-200 shadow-sm">
         <div className="flex gap-2">
           <div className="flex-1 relative">
             <input
@@ -112,7 +114,7 @@ export default function App() {
         )}
       </div>
 
-      <nav className="flex border-b border-gray-200 bg-white">
+      <nav className="flex border-b border-gray-200 bg-white max-w-lg mx-auto w-full">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -128,7 +130,7 @@ export default function App() {
         ))}
       </nav>
 
-      <main className="flex-1 overflow-y-auto pb-8">
+      <main className="flex-1 overflow-y-auto pb-8 max-w-lg mx-auto w-full">
         {activeTab === 'match' && (
           <WebSmartMatch category={category} merchantName={merchantName} quarter={quarter} />
         )}
