@@ -8,6 +8,8 @@
     "build": "vite build",
     "build:chrome": "BROWSER=chrome vite build",
     "build:firefox": "BROWSER=firefox vite build",
+    "build:web": "TARGET=web vite build",
+    "dev:web": "TARGET=web vite build --watch",
     "test": "vitest run"
   },
   "dependencies": {

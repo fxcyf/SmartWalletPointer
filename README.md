@@ -80,8 +80,42 @@ src/
   utils/
     matcher.js          # Best-card engine (spend-limit aware)
     storage.js          # chrome.storage.local wrapper
+    webStorage.js       # localStorage wrapper (web app)
     rss.js              # DoC RSS parser & deal extraction
     browser.js          # Cross-browser API compatibility
+  webapp/
+    index.html          # Web app entry point (PWA)
+    main.jsx            # React mount
+    App.jsx             # Web app with URL input + clipboard paste
+    pwa-manifest.json   # PWA manifest for "Add to Home Screen"
+    components/
+      WebSmartMatch.jsx # Card recommendations (localStorage)
+      WebCalendar.jsx   # 5% calendar with spend tracking
+      WebHotDeals.jsx   # Deal feed with client-side RSS fetch
+```
+
+## Mobile Web App
+
+A standalone web version for use on any device (iOS Safari, Android, etc.):
+
+```bash
+npm run build:web
+```
+
+Deploy the `dist-web/` folder to any static hosting (GitHub Pages, Vercel, Netlify).
+
+Features:
+- **Paste button** reads clipboard — copy a merchant URL on your phone, tap Paste to identify the card
+- **Manual input** — type a domain like `amazon.com` directly
+- **PWA** — add to home screen for app-like experience
+- **localStorage** — spend tracking persists across sessions
+- All three tabs (Smart Match, 5% Calendar, Hot Deals) available
+
+### Deploy to GitHub Pages
+
+```bash
+npm run build:web
+# Push dist-web/ contents to gh-pages branch, or use GitHub Actions
 ```
 
 ## Cross-Browser Support
@@ -89,11 +123,11 @@ src/
 - **Chrome:** `npm run build` (default) — uses `service_worker` for background
 - **Firefox:** `npm run build:firefox` — uses `background.scripts` + gecko settings
 - **Safari:** Build the Chrome version, then use Xcode's "Convert Chrome Extension" (Xcode 15+)
-
-The `src/utils/browser.js` module auto-detects `browser` (Firefox) vs `chrome` (Chrome/Edge) APIs at runtime. All frontend code uses this abstraction.
+- **Mobile:** `npm run build:web` — standalone PWA for any mobile browser
 
 ## Roadmap
 
 - [x] **Phase 1:** Static card data, domain matching, popup UI with 3 tabs
 - [x] **Phase 2:** Spend tracking progress bars, live RSS deals from Doctor of Credit
 - [x] **Phase 3:** Cross-browser support (Chrome + Firefox + Safari prep)
+- [x] **Phase 4:** Mobile web app with clipboard reading and PWA support

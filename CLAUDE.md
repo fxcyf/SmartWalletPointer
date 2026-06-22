@@ -79,7 +79,7 @@ rebase 发生冲突时：
 
 ## 技术架构
 
-- **类型：** Chrome 浏览器扩展 (Manifest V3)
+- **类型：** Chrome/Firefox 浏览器扩展 (Manifest V3) + 移动端 Web App (PWA)
 - **前端：** React 19 + Tailwind CSS 3，Vite 构建
 - **测试：** Vitest，测试文件与源码同目录 (`*.test.js`)
 - **构建：** `npm run build` → `dist/` 目录即可作为 Chrome 扩展加载
@@ -92,6 +92,8 @@ rebase 发生冲突时：
   - `src/utils/browser.js` — 跨浏览器兼容层（Chrome / Safari）
   - `src/background.js` — Service Worker，监听标签页 + 定时拉取 RSS（chrome.alarms）
   - `src/sidepanel/` — React 侧边栏 UI（Smart Match / 5% Calendar / Hot Deals）
+  - `src/webapp/` — 移动端 Web App（PWA，剪贴板读取，localStorage）
+  - `src/utils/webStorage.js` — localStorage 封装（Web App 用）
 
 ## 命令
 
@@ -99,7 +101,9 @@ rebase 发生冲突时：
 - `npm run build` — 构建 Chrome 扩展到 dist/
 - `npm run build:chrome` — 同上（显式指定 Chrome）
 - `npm run build:firefox` — 构建 Firefox 扩展到 dist/
-- `npm run dev` — Watch 模式开发
+- `npm run build:web` — 构建移动端 Web App 到 dist-web/
+- `npm run dev` — Watch 模式开发（扩展）
+- `npm run dev:web` — Watch 模式开发（Web App）
 
 ## 注意事项
 
